@@ -5,33 +5,39 @@ services:
     environment:
       POSTGRES_USER: username
       POSTGRES_PASSWORD: password
-      PGDATA: /var/lib/postgresql/data
-      POSTGRES_DB: whatsapp_clone
+      POSTGRES_DB: whatsapp_clone   # Default DB created at startup
     volumes:
-      - postgres:/data/postgres
+      - postgres:/var/lib/postgresql/data
     ports:
       - 5432:5432
     networks:
       - whatsapp-clone
     restart: unless-stopped
+
   keycloak:
     container_name: keycloak-ray
     image: quay.io/keycloak/keycloak:latest
-    ports:
-      - 9090:8080
     environment:
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_DB: postgres
+      KC_DB_URL_HOST: postgres
+      KC_DB_URL_DATABASE: keycloak       # Keycloak will use this DB
+      KC_DB_USERNAME: username
+      KC_DB_PASSWORD: password
+    ports:
+      - 9090:8080
     networks:
       - whatsapp-clone
+    depends_on:
+      - postgres
     command:
       - "start-dev"
+
 networks:
   whatsapp-clone:
     driver: bridge
 
 volumes:
   postgres:
-    driver: local
-  keycloak:
     driver: local
