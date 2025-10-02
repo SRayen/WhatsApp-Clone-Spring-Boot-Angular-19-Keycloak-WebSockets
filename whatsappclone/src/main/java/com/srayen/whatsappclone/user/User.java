@@ -2,10 +2,8 @@ package com.srayen.whatsappclone.user;
 
 import java.time.LocalDateTime;
 import java.util.List;
-
 import com.srayen.whatsappclone.chat.Chat;
 import com.srayen.whatsappclone.common.BaseAuditingEntity;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.NamedQuery;
@@ -14,11 +12,13 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "users")
 @NamedQuery(name = UserConstants.FIND_USER_BY_EMAIL, query = "SELECT u FROM USER u WHERE u.email= :email")
